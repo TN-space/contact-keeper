@@ -27,6 +27,15 @@ export default (state, action) => {
         isAuthenticated: true,
         loading: false,
       };
+    case LOGIN_SUCCESS:
+      // set an item name 'token' from action.payload.token
+      localStorage.setItem("token", action.payload.token);
+      return {
+        ...state,
+        ...action.payload,
+        isAuthenticated: true,
+        loading: false,
+      };
     case AUTH_ERROR:
       localStorage.removeItem("token");
       return {
@@ -37,7 +46,16 @@ export default (state, action) => {
         user: null,
         error: action.payload,
       };
-
+    case LOGIN_FAIL:
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+        error: action.payload,
+      };
     case REGISTER_FAIL:
       localStorage.removeItem("token");
       return {
@@ -48,6 +66,17 @@ export default (state, action) => {
         user: null,
         error: action.payload,
       };
+    case LOGOUT:
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+        error: action.payload,
+      };
+
     case CLEAR_ERRORS:
       return {
         ...state,
